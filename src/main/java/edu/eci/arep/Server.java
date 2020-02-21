@@ -6,18 +6,24 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import edu.eci.arep.handlers.Handler;
 import edu.eci.arep.handlers.impl.HTMLHandler;
 import edu.eci.arep.handlers.impl.ICOHandler;
 import edu.eci.arep.handlers.impl.PNGHandler;
+import edu.eci.arep.handlers.impl.RequestHandler;
 
 
 public class Server {
 
 	public static void main(String[] args) throws IOException {
-		Handler handler;
 		
+		
+
+		ExecutorService executor = Executors.newFixedThreadPool(20);
 		ServerSocket serverSocket = null;
 		
 		try {
@@ -25,8 +31,7 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();// TODO: handle exception
 		}
-		PrintWriter out;
-		BufferedReader in;
+		
 		
 		while(true)
 		{
@@ -38,42 +43,9 @@ public class Server {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		executor.execute(new RequestHandler(clientSocket));
 		
 		
-		out = new PrintWriter(clientSocket.getOutputStream(), true);
-		in = new BufferedReader(
-				new InputStreamReader(
-						clientSocket.getInputStream()));
-				
-		
-		String inputLine;
-		String outputLine;
-		String request = null;
-		
-			while ((inputLine = in.readLine()) != null) {
-				if (inputLine.matches("(GET)+.*")) {
-					request = inputLine.split(" ")[1];
-				}
-				if(!in.ready())
-					break;	
-			}
-			
-		request = request == null ? "/error.html" : request;
-            request = request.equals("/") ? "/index.html" : request;
-			if (request.matches("(/apps).*")) {
-
-			} else if (request.matches(".*(.html)")) {
-				handler = new HTMLHandler();
-				handler.handle(out, clientSocket.getOutputStream(), request);
-			} else if (request.matches(".*(.PNG)")) {
-				handler = new PNGHandler();
-				handler.handle(out, clientSocket.getOutputStream(), request);
-			} else if (request.matches(".*(.ico)")) {
-				handler = new ICOHandler();
-				handler.handle(out, clientSocket.getOutputStream(), request);
-			}
-			out.close();
-			in.close();
 				
 
 		}
