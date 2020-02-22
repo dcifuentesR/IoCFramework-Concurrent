@@ -4,6 +4,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,10 +16,11 @@ import edu.eci.arep.annotations.Web;
 
 public class MethodHandler implements Handler {
 	
-	private static Map<String, Method> URLHandlerMap;
+	private Map<String, Method> URLHandlerMap;
     
 	public MethodHandler() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
+		URLHandlerMap = new HashMap<String, Method>();
 
 		Reflections reflections = new Reflections("edu.eci.arem.apps", new SubTypesScanner(false));
 		Set<Class<? extends Object>> classes = reflections.getSubTypesOf(Object.class);
