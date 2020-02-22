@@ -4,12 +4,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import edu.eci.arep.handlers.Handler;
 import edu.eci.arep.handlers.impl.HTMLHandler;
 import edu.eci.arep.handlers.impl.ICOHandler;
+import edu.eci.arep.handlers.impl.MethodHandler;
 import edu.eci.arep.handlers.impl.PNGHandler;
 
 
@@ -47,7 +49,6 @@ public class Server {
 				
 		
 		String inputLine;
-		String outputLine;
 		String request = null;
 		
 			while ((inputLine = in.readLine()) != null) {
@@ -61,7 +62,14 @@ public class Server {
 		request = request == null ? "/error.html" : request;
             request = request.equals("/") ? "/index.html" : request;
 			if (request.matches("(/apps).*")) {
-
+				try {
+					handler = new MethodHandler();
+					handler.handle(out, clientSocket.getOutputStream(), request);
+				} catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException
+						| IllegalArgumentException | InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else if (request.matches(".*(.html)")) {
 				handler = new HTMLHandler();
 				handler.handle(out, clientSocket.getOutputStream(), request);
