@@ -10,7 +10,7 @@ After downloading enter the root folder and excecute the following commands
 
 ```
 mvn package
-java -cp target/Taller-Clientes-Servicios-1.0-SNAPSHOT.jar edu.escuelaing.arem.tallerCS.Server
+java -cp target/IoCFramework-1.0-SNAPSHOT.jar edu.eci.arep.server.Server
 ```
 In order to generate the documentation of the project use the command 
 
