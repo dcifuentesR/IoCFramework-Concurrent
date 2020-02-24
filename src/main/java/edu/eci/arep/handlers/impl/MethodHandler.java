@@ -18,6 +18,14 @@ public class MethodHandler implements Handler {
 	
 	private Map<String, Method> URLHandlerMap;
     
+	/**
+	 * Maps the methods in the 'edu.eci.arem.apps' package to an URL so that they can be called.
+	 * @throws ClassNotFoundException
+	 * @throws NoSuchMethodException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 */
 	public MethodHandler() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 		URLHandlerMap = new HashMap<String, Method>();
@@ -30,6 +38,11 @@ public class MethodHandler implements Handler {
 					URLHandlerMap.put("/apps/" + m.getAnnotation(Web.class).value(),m);
 	}
 	
+	/**
+	 * Gets the values of the parameters for the method
+	 * @param request - the query portion of the url
+	 * @return An array of Objects representing the parameters of the method to invoke
+	 */
 	private static Object[] getParameters(String request) {
 		Object parameters[] = null;
 
