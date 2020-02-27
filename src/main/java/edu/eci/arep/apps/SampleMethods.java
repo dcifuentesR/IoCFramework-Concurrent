@@ -1,4 +1,4 @@
-package edu.eci.arem.apps;
+package edu.eci.arep.apps;
 
 import edu.eci.arep.annotations.Web;
 

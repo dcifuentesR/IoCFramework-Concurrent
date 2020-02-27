@@ -19,7 +19,7 @@ public class MethodHandler implements Handler {
 	private Map<String, Method> URLHandlerMap;
     
 	/**
-	 * Maps the methods in the 'edu.eci.arem.apps' package to an URL so that they can be called.
+	 * Maps the methods in the 'edu.eci.arep.apps' package to an URL so that they can be called.
 	 * @throws ClassNotFoundException
 	 * @throws NoSuchMethodException
 	 * @throws IllegalAccessException
@@ -30,7 +30,7 @@ public class MethodHandler implements Handler {
 			IllegalArgumentException, InvocationTargetException {
 		URLHandlerMap = new HashMap<String, Method>();
 
-		Reflections reflections = new Reflections("edu.eci.arem.apps", new SubTypesScanner(false));
+		Reflections reflections = new Reflections("edu.eci.arep.apps", new SubTypesScanner(false));
 		Set<Class<? extends Object>> classes = reflections.getSubTypesOf(Object.class);
 		for (Class c : classes)
 			for (Method m : c.getMethods())
